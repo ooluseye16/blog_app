@@ -8,30 +8,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  /*
-    * Example of login response 
-
-    {
-    "status": "success",
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZTZkOTgxMmMxOTBmMmFiN2RlZjgyYiIsImlhdCI6MTc0MzU0NzUzNiwiZXhwIjoxNzQ2MTM5NTM2fQ.VkKcyWWuiZBrxIS3AwPuE7w13OsReA8WE3t8D-2YzYM",
-    "message": "User logged in successfully"
-}
-
-Example of signup response
-{
-    "status": "success",
-    "data": {
-        "id": "67ec6cebbc56fefc75a9f842",
-        "username": "testuserr",
-        "email": "testuser2@example.com",
-        "password": "$2b$12$sxNP7q8/k8TwcFMpZjsbs.lolNlVi99vJsThmycxS71lAfWzxjF/O",
-        "role": "user",
-        "createdAt": "2025-04-01T22:47:07.707Z"
-    },
-    "message": "User registered successfully"
-}
-    */
-
+  
   final _storage = getSecureStorage;
   static const _tokenKey = 'jwt_token';
 
