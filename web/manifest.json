@@ -1,11 +1,11 @@
 {
-    "name": "blog_app",
+    "name": "Blog App",
     "short_name": "blog_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Blog App is a simple blog application that allows users to read and create blog posts.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

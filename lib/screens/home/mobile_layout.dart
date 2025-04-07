@@ -77,14 +77,14 @@ class _HomeMobileLayoutState extends State<HomeMobileLayout> {
                               context.go("/my-posts");
                             },
                           ),
-                          16.width,
+                          8.width,
                           AppOutlinedButton(
                               text: "Create new post",
                               onPressed: () {
                                  context.go("/create");
                                 // Implement create post logic
                               }),
-                          16.width,
+                          8.width,
                           CircleAvatar(
                             radius: 20,
                             child: Text(
