@@ -6,18 +6,31 @@ import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(
   routes: [
+    // Redirect root path to '/posts'
     GoRoute(
       path: '/',
-      builder: (context, state) => HomeScreen(),
+      redirect: (context, state) => '/posts',
     ),
+
+    // Home Screen Route
+    GoRoute(
+      path: '/posts',
+      builder: (context, state) => const HomeScreen(),
+    ),
+
+    // Create New Post Route
     GoRoute(
       path: '/create',
-      builder: (context, state) => CreateNewPostScreen(),
+      builder: (context, state) => const CreateNewPostScreen(),
     ),
+
+    // My Posts Route
     GoRoute(
       path: '/my-posts',
-      builder: (context, state) => MyPostsScreen(),
+      builder: (context, state) => const MyPostsScreen(),
     ),
+
+    // Post Details Route
     GoRoute(
       path: '/posts/:id',
       builder: (context, state) {

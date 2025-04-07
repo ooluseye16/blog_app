@@ -76,14 +76,14 @@ class _HomeTabletLayoutState extends State<HomeTabletLayout> {
                           AppDefaultButton(
                               text: "My posts",
                               onPressed: () {
-                                context.push("/my-posts");
+                                   context.go("/my-posts");
                                 // Implement my posts logic
                               }),
                           16.width,
                           AppOutlinedButton(
                               text: "Create new post",
                               onPressed: () {
-                                context.push("/create");
+                                   context.go("/create");
                                 // Implement create post logic
                               }),
                           16.width,

@@ -8,14 +8,39 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
-class BlogCard extends ConsumerWidget {
+class BlogCard extends ConsumerStatefulWidget {
   final Post post;
 
   const BlogCard({super.key, required this.post});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final authorData = ref.watch(userByIdProvider(post.author));
+  ConsumerState<BlogCard> createState() => _BlogCardState();
+}
+
+class _BlogCardState extends ConsumerState<BlogCard> {
+  late List<Color> gradientColors;
+
+  @override
+  void initState() {
+    super.initState();
+    gradientColors = _generateGradient();
+  }
+
+  static List<Color> _generateGradient() {
+    final random = Random();
+    final baseIndex = random.nextInt(Colors.primaries.length);
+    final secondaryIndex = (baseIndex + 5) % Colors.primaries.length;
+    return [
+      Colors.primaries[baseIndex],
+      Colors.primaries[secondaryIndex],
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final authorData = ref.watch(
+      userByIdProvider(widget.post.author),
+    );
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -25,7 +50,9 @@ class BlogCard extends ConsumerWidget {
 
         return InkWell(
           onTap: () {
-            context.push('/posts/${post.id}');
+            context.go(
+              '/posts/${widget.post.id}',
+            );
           },
           child: Card(
             elevation: 1,
@@ -42,13 +69,19 @@ class BlogCard extends ConsumerWidget {
                         Container(
                           width: MediaQuery.sizeOf(context).width * 0.3,
                           height: 200,
-                          decoration: _buildGradientDecoration(),
-                          child: AnimatedBlogTitle(title: post.title),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: gradientColors,
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                          ),
+                          child: AnimatedBlogTitle(title: widget.post.title),
                         ),
                         // Content Section
                         Expanded(
                           child: Center(
-                            child: _buildContentSection(authorData, post,
+                            child: _buildContentSection(authorData, widget.post,
                                 padding: 20, titleSize: 22),
                           ),
                         ),
@@ -60,15 +93,21 @@ class BlogCard extends ConsumerWidget {
                         Container(
                           height: isTablet ? 200 : 180,
                           width: double.infinity,
-                          decoration: _buildGradientDecoration(),
-                          child: AnimatedBlogTitle(title: post.title),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: gradientColors,
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                          ),
+                          child: AnimatedBlogTitle(title: widget.post.title),
                         ),
                         // Content Section
                         Padding(
                           padding: EdgeInsets.all(isTablet ? 18 : 14),
                           child: _buildContentSection(
                             authorData,
-                            post,
+                            widget.post,
                             padding: isTablet ? 18 : 14,
                             titleSize: isTablet ? 20 : 18,
                           ),
@@ -79,21 +118,6 @@ class BlogCard extends ConsumerWidget {
           ),
         );
       },
-    );
-  }
-
-  // Generates a random gradient background
-  BoxDecoration _buildGradientDecoration() {
-    return BoxDecoration(
-      gradient: LinearGradient(
-        colors: [
-          Colors.primaries[Random().nextInt(100) % Colors.primaries.length],
-          Colors
-              .primaries[(Random().nextInt(100) + 5) % Colors.primaries.length]
-        ],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
     );
   }
 
@@ -216,7 +240,7 @@ class _AnimatedBlogTitleState extends State<AnimatedBlogTitle>
             child: Text(
               widget.title,
               style: TextStyle(
-                fontSize: 50,
+                fontSize: 33,
                 fontWeight: FontWeight.bold,
                 color: Colors.white.withOpacity(0.8),
               ),

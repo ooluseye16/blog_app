@@ -3,6 +3,7 @@ import 'package:blog_app/data/providers/post_provider.dart';
 import 'package:blog_app/screens/home/desktop_layout.dart';
 import 'package:blog_app/screens/home/mobile_layout.dart';
 import 'package:blog_app/screens/home/tab_layout.dart';
+import 'package:blog_app/screens/widgets/error_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,10 +28,11 @@ class HomeScreen extends ConsumerWidget {
         );
       },
       error: (e, st) {
-        return Scaffold(
-          body: Center(
-            child: Text('Error: $e'),
-          ),
+        return ErrorScreen(
+          message: e as String,
+          onRetry: () {
+            ref.invalidate(postsProvider);
+          },
         );
       },
       loading: () {

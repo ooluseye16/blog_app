@@ -72,14 +72,14 @@ class _HomeDesktopLayoutState extends State<HomeDesktopLayout> {
                           AppOutlinedButton(
                             text: "My Posts",
                             onPressed: () {
-                              context.push("/my-posts");
+                              context.go("/my-posts");
                             },
                           ),
                           SizedBox(width: 16),
                           AppOutlinedButton(
                             text: "Create new post",
                             onPressed: () {
-                              context.push("/create");
+                              context.go("/create");
                             },
                           ),
                           SizedBox(width: 16),

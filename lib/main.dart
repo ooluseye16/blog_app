@@ -24,7 +24,9 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.light,
         ),
       ),
-      routerConfig: router,
+      routerDelegate: router.routerDelegate,
+      routeInformationParser: router.routeInformationParser,
+      routeInformationProvider: router.routeInformationProvider,
     );
   }
 }

@@ -74,14 +74,14 @@ class _HomeMobileLayoutState extends State<HomeMobileLayout> {
                           AppOutlinedButton(
                             text: "My Posts",
                             onPressed: () {
-                              context.push("/my-posts");
+                              context.go("/my-posts");
                             },
                           ),
                           16.width,
                           AppOutlinedButton(
                               text: "Create new post",
                               onPressed: () {
-                                context.push("/create");
+                                 context.go("/create");
                                 // Implement create post logic
                               }),
                           16.width,
