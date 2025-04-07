@@ -5,6 +5,7 @@ import 'package:blog_app/data/models/user.dart';
 import 'package:blog_app/data/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class BlogCard extends ConsumerWidget {
@@ -22,54 +23,59 @@ class BlogCard extends ConsumerWidget {
         bool isTablet =
             constraints.maxWidth > 600 && constraints.maxWidth <= 800;
 
-        return Card(
-          elevation: 1,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(15),
-            child: isDesktop
-                ? Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Image Placeholder
-                      Container(
-                        width: MediaQuery.sizeOf(context).width * 0.3,
-                        height: 200,
-                        decoration: _buildGradientDecoration(),
-                        child: AnimatedBlogTitle(title: post.title),
-                      ),
-                      // Content Section
-                      Expanded(
-                        child: Center(
-                          child: _buildContentSection(authorData, post,
-                              padding: 20, titleSize: 22),
+        return InkWell(
+          onTap: () {
+            context.push('/posts/${post.id}');
+          },
+          child: Card(
+            elevation: 1,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(15),
+              child: isDesktop
+                  ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Image Placeholder
+                        Container(
+                          width: MediaQuery.sizeOf(context).width * 0.3,
+                          height: 200,
+                          decoration: _buildGradientDecoration(),
+                          child: AnimatedBlogTitle(title: post.title),
                         ),
-                      ),
-                    ],
-                  )
-                : Column(
-                    children: [
-                      // Image Placeholder
-                      Container(
-                        height: isTablet ? 200 : 180,
-                        width: double.infinity,
-                        decoration: _buildGradientDecoration(),
-                        child: AnimatedBlogTitle(title: post.title),
-                      ),
-                      // Content Section
-                      Padding(
-                        padding: EdgeInsets.all(isTablet ? 18 : 14),
-                        child: _buildContentSection(
-                          authorData,
-                          post,
-                          padding: isTablet ? 18 : 14,
-                          titleSize: isTablet ? 20 : 18,
+                        // Content Section
+                        Expanded(
+                          child: Center(
+                            child: _buildContentSection(authorData, post,
+                                padding: 20, titleSize: 22),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        // Image Placeholder
+                        Container(
+                          height: isTablet ? 200 : 180,
+                          width: double.infinity,
+                          decoration: _buildGradientDecoration(),
+                          child: AnimatedBlogTitle(title: post.title),
+                        ),
+                        // Content Section
+                        Padding(
+                          padding: EdgeInsets.all(isTablet ? 18 : 14),
+                          child: _buildContentSection(
+                            authorData,
+                            post,
+                            padding: isTablet ? 18 : 14,
+                            titleSize: isTablet ? 20 : 18,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
           ),
         );
       },
@@ -81,10 +87,9 @@ class BlogCard extends ConsumerWidget {
     return BoxDecoration(
       gradient: LinearGradient(
         colors: [
+          Colors.primaries[Random().nextInt(100) % Colors.primaries.length],
           Colors
-              .primaries[Random().nextInt(100) % Colors.primaries.length],
-          Colors.primaries[
-              (Random().nextInt(100) +5) % Colors.primaries.length]
+              .primaries[(Random().nextInt(100) + 5) % Colors.primaries.length]
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,

@@ -84,4 +84,21 @@ class PostService {
       rethrow;
     }
   }
+
+  //get post by id
+  Future<Post> getPostById(String id) async {
+    try {
+      final response = await http.get(Uri.parse('${Urls.posts}/$id'));
+      log(response.body);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        return Post.fromJson(data['data']);
+      } else {
+        throw Exception('Failed to load post');
+      }
+    } catch (e) {
+      log('Error: $e');
+      rethrow;
+    }
+  }
 }

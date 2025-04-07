@@ -1,6 +1,7 @@
 import 'package:blog_app/screens/home_screen.dart';
 import 'package:blog_app/screens/posts/create_post.dart';
 import 'package:blog_app/screens/posts/my_posts.dart';
+import 'package:blog_app/screens/posts/post_details.dart';
 import 'package:go_router/go_router.dart';
 
 final GoRouter router = GoRouter(
@@ -17,12 +18,12 @@ final GoRouter router = GoRouter(
       path: '/my-posts',
       builder: (context, state) => MyPostsScreen(),
     ),
-    // GoRoute(
-    //   path: '/post/:id',
-    //   builder: (context, state) {
-    //     final postId = state.pathParameters['id'];
-    //     return PostDetailsScreen(postId: postId!);
-    //   },
-    // ),
+    GoRoute(
+      path: '/posts/:id',
+      builder: (context, state) {
+        final postId = state.pathParameters['id'];
+        return PostDetailsScreen(postId: postId!);
+      },
+    ),
   ],
 );

@@ -21,3 +21,9 @@ Future<List<Post>> usersPosts(Ref ref) {
   final postService = ref.read(postRepositoryProvider);
   return postService.getUsersPosts();
 }
+
+@Riverpod(keepAlive: true)
+Future<Post> postById(Ref ref, String id) {
+  final postService = ref.read(postRepositoryProvider);
+  return postService.getPostById(id);
+}
