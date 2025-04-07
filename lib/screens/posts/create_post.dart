@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:blog_app/components/widgets/buttons.dart';
 import 'package:blog_app/data/providers/post_provider.dart';
+import 'package:blog_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -51,11 +52,16 @@ class _CreateNewPostScreenState extends ConsumerState<CreateNewPostScreen> {
     if (result.$1) {
       setState(() => _isLoading = false);
       ref.invalidate(postsProvider);
+      ref.invalidate(usersPostsProvider);
       if (mounted) {
+        showAppSnackBar(context, message: "Post created successfully");
         context.pop();
       }
     } else {
       setState(() => _isLoading = false);
+      if (mounted) {
+        showAppSnackBar(context, message: result.$2 ?? "An error occured");
+      }
       log(result.$2 ?? "An error occured");
     }
   }

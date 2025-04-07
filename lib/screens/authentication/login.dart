@@ -4,6 +4,7 @@ import 'package:blog_app/components/widgets/buttons.dart';
 import 'package:blog_app/components/widgets/text_field.dart';
 import 'package:blog_app/data/providers/auth_provider.dart';
 import 'package:blog_app/data/providers/user_provider.dart';
+import 'package:blog_app/utils/constants.dart';
 import 'package:blog_app/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -84,12 +85,18 @@ class _LoginDialogState extends ConsumerState<LoginDialog> {
       });
       ref.invalidate(userProvider);
       if (mounted) {
+        showAppSnackBar(context, message: "Login successful");
         Navigator.pop(context);
       }
     } else {
       setState(() {
         isLoading = false;
       });
+      if (mounted) {
+        showAppSnackBar(context,
+            message: result.$2 ?? "An error occurred",
+            type: SnackBarType.error);
+      }
       log(result.$2 ?? "An error occurred");
     }
   }

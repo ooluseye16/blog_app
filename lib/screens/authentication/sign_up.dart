@@ -4,6 +4,7 @@ import 'package:blog_app/components/widgets/buttons.dart';
 import 'package:blog_app/components/widgets/text_field.dart';
 import 'package:blog_app/data/providers/auth_provider.dart';
 import 'package:blog_app/data/providers/user_provider.dart';
+import 'package:blog_app/utils/constants.dart';
 import 'package:blog_app/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -89,13 +90,20 @@ class _SignUpDialogState extends ConsumerState<SignUpDialog> {
       });
       ref.invalidate(userProvider);
       if (mounted) {
+        showAppSnackBar(context, message: "Sign up successful");
         Navigator.pop(context);
       }
     } else {
       setState(() {
         isLoading = false;
       });
-      log(result.$2 ?? "An error occurred");
+      if (mounted) {
+        showAppSnackBar(context,
+            message: result.$2 ?? "An error occurred",
+            type: SnackBarType.error,
+            duration: const Duration(seconds: 5));
+        log(result.$2 ?? "An error occurred");
+      }
     }
   }
 }
