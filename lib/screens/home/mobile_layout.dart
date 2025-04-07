@@ -72,6 +72,13 @@ class _HomeMobileLayoutState extends State<HomeMobileLayout> {
                       return Row(
                         children: [
                           AppOutlinedButton(
+                            text: "My Posts",
+                            onPressed: () {
+                              context.push("/my-posts");
+                            },
+                          ),
+                          16.width,
+                          AppOutlinedButton(
                               text: "Create new post",
                               onPressed: () {
                                 context.push("/create");

@@ -39,5 +39,21 @@ final postsProvider = FutureProvider<List<Post>>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef PostsRef = FutureProviderRef<List<Post>>;
+String _$usersPostsHash() => r'56941e57306456692dab9d33f07bbf7f1d18efe6';
+
+/// See also [usersPosts].
+@ProviderFor(usersPosts)
+final usersPostsProvider = FutureProvider<List<Post>>.internal(
+  usersPosts,
+  name: r'usersPostsProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$usersPostsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef UsersPostsRef = FutureProviderRef<List<Post>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

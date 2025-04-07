@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:blog_app/data/models/post.dart';
 import 'package:blog_app/data/models/user.dart';
 import 'package:blog_app/data/providers/user_provider.dart';
@@ -80,9 +82,9 @@ class BlogCard extends ConsumerWidget {
       gradient: LinearGradient(
         colors: [
           Colors
-              .primaries[DateTime.now().millisecond % Colors.primaries.length],
+              .primaries[Random().nextInt(100) % Colors.primaries.length],
           Colors.primaries[
-              (DateTime.now().millisecond + 5) % Colors.primaries.length]
+              (Random().nextInt(100) +5) % Colors.primaries.length]
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,

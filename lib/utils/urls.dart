@@ -6,6 +6,7 @@ class Urls {
   static const signUp = '$baseUrl/auth/register';
 
   static const String getUser = '$baseUrl/user';
+  static const String getUserPosts = '$baseUrl/user/posts';
   
   // static const String updateProfile = '$baseUrl/api/users/update';
   // static const String deleteAccount = '$baseUrl/api/users/delete';

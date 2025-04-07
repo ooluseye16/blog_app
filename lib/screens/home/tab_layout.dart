@@ -73,6 +73,13 @@ class _HomeTabletLayoutState extends State<HomeTabletLayout> {
                     if (user != null) {
                       return Row(
                         children: [
+                          AppDefaultButton(
+                              text: "My posts",
+                              onPressed: () {
+                                context.push("/my-posts");
+                                // Implement my posts logic
+                              }),
+                          16.width,
                           AppOutlinedButton(
                               text: "Create new post",
                               onPressed: () {

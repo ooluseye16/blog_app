@@ -4,7 +4,6 @@ import 'package:blog_app/data/providers/user_provider.dart';
 import 'package:blog_app/screens/authentication/login.dart';
 import 'package:blog_app/screens/authentication/sign_up.dart';
 import 'package:blog_app/screens/home/widgets/blog_card.dart';
-import 'package:blog_app/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -71,21 +70,28 @@ class _HomeDesktopLayoutState extends State<HomeDesktopLayout> {
                       return Row(
                         children: [
                           AppOutlinedButton(
-                              text: "Create new post",
-                              onPressed: () {
-                                context.push("/create");
-                                // Implement create post logic
-                              }),
-                          16.width,
+                            text: "My Posts",
+                            onPressed: () {
+                              context.push("/my-posts");
+                            },
+                          ),
+                          SizedBox(width: 16),
+                          AppOutlinedButton(
+                            text: "Create new post",
+                            onPressed: () {
+                              context.push("/create");
+                            },
+                          ),
+                          SizedBox(width: 16),
                           CircleAvatar(
                             radius: 20,
                             child: Text(
-                                //first two letters of the username
-                                user.username.substring(0, 2).toUpperCase(),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                )),
+                              user.username.substring(0, 2).toUpperCase(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ],
                       );
@@ -93,30 +99,34 @@ class _HomeDesktopLayoutState extends State<HomeDesktopLayout> {
                       return Row(
                         children: [
                           AppDefaultButton(
-                              text: "Sign up",
-                              onPressed: () {
-                                showAdaptiveDialog(
-                                    context: context,
-                                    barrierDismissible: true,
-                                    builder: (context) {
-                                      return Dialog(
-                                        child: SignUpDialog(),
-                                      );
-                                    });
-                              }),
+                            text: "Sign up",
+                            onPressed: () {
+                              showAdaptiveDialog(
+                                context: context,
+                                barrierDismissible: true,
+                                builder: (context) {
+                                  return Dialog(
+                                    child: SignUpDialog(),
+                                  );
+                                },
+                              );
+                            },
+                          ),
                           SizedBox(width: 8),
                           AppOutlinedButton(
-                              text: "Login",
-                              onPressed: () {
-                                showAdaptiveDialog(
-                                    context: context,
-                                    barrierDismissible: true,
-                                    builder: (context) {
-                                      return Dialog(
-                                        child: LoginDialog(),
-                                      );
-                                    });
-                              }),
+                            text: "Login",
+                            onPressed: () {
+                              showAdaptiveDialog(
+                                context: context,
+                                barrierDismissible: true,
+                                builder: (context) {
+                                  return Dialog(
+                                    child: LoginDialog(),
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ],
                       );
                     }
@@ -134,12 +144,13 @@ class _HomeDesktopLayoutState extends State<HomeDesktopLayout> {
       body: Scrollbar(
         controller: scrollController,
         child: ListView.builder(
-            controller: scrollController,
-            itemCount: widget.posts.length,
-            itemBuilder: (context, index) {
-              final post = widget.posts[index];
-              return BlogCard(post: post);
-            }),
+          controller: scrollController,
+          itemCount: widget.posts.length,
+          itemBuilder: (context, index) {
+            final post = widget.posts[index];
+            return BlogCard(post: post);
+          },
+        ),
       ),
       floatingActionButton: _showScrollToTop
           ? FloatingActionButton.small(
