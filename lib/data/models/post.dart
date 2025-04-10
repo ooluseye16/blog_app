@@ -1,10 +1,9 @@
 class Post {
- 
-
   final String id;
   final String title;
   final String content;
   final String author;
+  final String image;
   final DateTime createdAt;
 
   Post({
@@ -13,6 +12,7 @@ class Post {
     required this.content,
     required this.author,
     required this.createdAt,
+    this.image = '',
   });
 
   //fromJson method to convert a JSON object to a Post object
@@ -21,5 +21,9 @@ class Post {
         title = json['title'],
         content = json['content'],
         author = json['author'],
-        createdAt = DateTime.parse(json['createdAt']);
+ 
+       image = json['image'] ?? '',
+        createdAt = DateTime.parse(json['createdAt'], 
+        
+        );
 }

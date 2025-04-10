@@ -10,8 +10,9 @@ import 'package:intl/intl.dart';
 
 class BlogCard extends ConsumerStatefulWidget {
   final Post post;
+  final String? from;
 
-  const BlogCard({super.key, required this.post});
+  const BlogCard({super.key, required this.post, this.from});
 
   @override
   ConsumerState<BlogCard> createState() => _BlogCardState();
@@ -50,9 +51,12 @@ class _BlogCardState extends ConsumerState<BlogCard> {
 
         return InkWell(
           onTap: () {
-            context.go(
-              '/posts/${widget.post.id}',
-            );
+            if (widget.from == 'my_posts') {
+              GoRouter.of(context)
+                  .go('/my-posts/${widget.post.id}?from=my_posts');
+            } else {
+              GoRouter.of(context).go('/posts/${widget.post.id}?from=posts');
+            }
           },
           child: Card(
             elevation: 1,
@@ -76,7 +80,12 @@ class _BlogCardState extends ConsumerState<BlogCard> {
                               end: Alignment.bottomRight,
                             ),
                           ),
-                          child: AnimatedBlogTitle(title: widget.post.title),
+                          child: widget.post.image.isNotEmpty
+                              ? Image.network(
+                                  widget.post.image,
+                                  fit: BoxFit.cover,
+                                )
+                              : AnimatedBlogTitle(title: widget.post.title),
                         ),
                         // Content Section
                         Expanded(
@@ -100,7 +109,12 @@ class _BlogCardState extends ConsumerState<BlogCard> {
                               end: Alignment.bottomRight,
                             ),
                           ),
-                          child: AnimatedBlogTitle(title: widget.post.title),
+                          child:widget.post.image.isNotEmpty
+                              ? Image.network(
+                                  widget.post.image,
+                                  fit: BoxFit.cover,
+                                )
+                              : AnimatedBlogTitle(title: widget.post.title),
                         ),
                         // Content Section
                         Padding(

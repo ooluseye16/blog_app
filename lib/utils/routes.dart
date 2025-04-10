@@ -14,9 +14,19 @@ final GoRouter router = GoRouter(
 
     // Home Screen Route
     GoRoute(
-      path: '/posts',
-      builder: (context, state) => const HomeScreen(),
-    ),
+        path: '/posts',
+        builder: (context, state) => const HomeScreen(),
+        routes: [
+          // Post Details Route
+          GoRoute(
+            path: ':id',
+            builder: (context, state) {
+              final postId = state.pathParameters['id']!;
+              final from = state.uri.queryParameters['from'];
+              return PostDetailsScreen(postId: postId, from: from);
+            },
+          ),
+        ]),
 
     // Create New Post Route
     GoRoute(
@@ -28,15 +38,16 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/my-posts',
       builder: (context, state) => const MyPostsScreen(),
-    ),
-
-    // Post Details Route
-    GoRoute(
-      path: '/posts/:id',
-      builder: (context, state) {
-        final postId = state.pathParameters['id'];
-        return PostDetailsScreen(postId: postId!);
-      },
+      routes: [
+        GoRoute(
+          path: ':id',
+          builder: (context, state) {
+            final postId = state.pathParameters['id']!;
+            final from = state.uri.queryParameters['from'];
+            return PostDetailsScreen(postId: postId, from: from);
+          },
+        ),
+      ],
     ),
   ],
 );

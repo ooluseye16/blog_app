@@ -27,7 +27,7 @@ class UserService {
         },
       );
 
-      log(response.body);
+     // log(response.body);
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final dynamic user = data['data'];
@@ -55,7 +55,7 @@ class UserService {
         },
       );
 
-      log(response.body);
+     // log(response.body);
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final dynamic user = data['data'];

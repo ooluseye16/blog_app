@@ -6,6 +6,7 @@ import 'package:blog_app/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreateNewPostScreen extends ConsumerStatefulWidget {
   const CreateNewPostScreen({super.key});
@@ -19,35 +20,31 @@ class _CreateNewPostScreenState extends ConsumerState<CreateNewPostScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _contentController = TextEditingController();
-  //final String _selectedCategory = "Technology";
-  // File? _selectedImage;
+  XFile? _selectedImage;
   bool _isLoading = false;
 
-  // final List<String> _categories = [
-  //   "Technology",
-  //   "Lifestyle",
-  //   "Travel",
-  //   "Education",
-  //   "Health",
-  //   "Business"
-  // ];
-
-  // // Image Picker Function
-  // Future<void> _pickImage() async {
-  //   final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
-  //   if (pickedFile != null) {
-  //     setState(() => _selectedImage = File(pickedFile.path));
-  //   }
-  // }
+  // Image Picker Function
+  Future<void> _pickImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() => _selectedImage = pickedFile);
+    }
+  }
 
   // Publish Post
   void _publishPost() async {
     if (!_formKey.currentState!.validate()) return;
+    if (_selectedImage == null) {
+      showAppSnackBar(context, message: "Please select an image");
+      return;
+    }
+
     setState(() => _isLoading = true);
 
-    final result = await ref
-        .read(postRepositoryProvider)
-        .createPost(_titleController.text, _contentController.text);
+    final result = await ref.read(postRepositoryProvider).createPost(
+        _titleController.text, _contentController.text,
+        image: _selectedImage);
 
     if (result.$1) {
       setState(() => _isLoading = false);
@@ -55,14 +52,16 @@ class _CreateNewPostScreenState extends ConsumerState<CreateNewPostScreen> {
       ref.invalidate(usersPostsProvider);
       if (mounted) {
         showAppSnackBar(context, message: "Post created successfully");
-        context.pop();
+        context.go("/");
       }
     } else {
       setState(() => _isLoading = false);
       if (mounted) {
-        showAppSnackBar(context, message: result.$2 ?? "An error occured");
+        showAppSnackBar(context,
+            message: result.$2 ?? "An error occurred",
+            type: SnackBarType.error);
       }
-      log(result.$2 ?? "An error occured");
+      log(result.$2 ?? "An error occurred");
     }
   }
 
@@ -75,7 +74,12 @@ class _CreateNewPostScreenState extends ConsumerState<CreateNewPostScreen> {
             constraints.maxWidth > 600 && constraints.maxWidth <= 900;
 
         return Scaffold(
-          appBar: AppBar(title: Text("Create a New Blog Post")),
+          appBar: AppBar(
+            leading: IconButton(
+              onPressed: () => context.go("/"),
+              icon: const Icon(Icons.arrow_back),
+            ),
+            title: Text("Create a New Blog Post")),
           body: SingleChildScrollView(
             padding: EdgeInsets.symmetric(
               horizontal: isDesktop
@@ -118,39 +122,45 @@ class _CreateNewPostScreenState extends ConsumerState<CreateNewPostScreen> {
                   ),
                   SizedBox(height: 20),
 
-                  // // Image Upload
-                  // GestureDetector(
-                  //   onTap: _pickImage,
-                  //   child: Container(
-                  //     height: 180,
-                  //     width: double.infinity,
-                  //     decoration: BoxDecoration(
-                  //       border: Border.all(color: Colors.grey),
-                  //       borderRadius: BorderRadius.circular(10),
-                  //       image: _selectedImage != null
-                  //           ? DecorationImage(
-                  //               image: FileImage(_selectedImage!),
-                  //               fit: BoxFit.cover,
-                  //             )
-                  //           : null,
-                  //     ),
-                  //     child: _selectedImage == null
-                  //         ? Center(
-                  //             child: Column(
-                  //               mainAxisSize: MainAxisSize.min,
-                  //               children: [
-                  //                 Icon(Icons.image, size: 50, color: Colors.grey),
-                  //                 SizedBox(height: 5),
-                  //                 Text("Tap to add an image"),
-                  //               ],
-                  //             ),
-                  //           )
-                  //         : null,
-                  //   ),
-                  // ),
-                  // SizedBox(height: 30),
+                  // Image Upload
+                  GestureDetector(
+                    onTap: _pickImage,
+                    child: Container(
+                      height: isDesktop
+                          ? 300
+                          : isTablet
+                              ? 200
+                              : 200,
+                      width: isDesktop
+                          ? 600
+                          : isTablet
+                              ? 400
+                              : double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: _selectedImage == null
+                          ? Center(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(Icons.image,
+                                      size: 50, color: Colors.grey),
+                                  SizedBox(height: 5),
+                                  Text("Tap to add an image"),
+                                ],
+                              ),
+                            )
+                          : Image.network(
+                              _selectedImage!.path,
+                              fit: BoxFit.cover,
+                            ),
+                    ),
+                  ),
+                  SizedBox(height: 30),
 
-                  // Publish & Save Draft Buttons
+                  // Publish Button
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
